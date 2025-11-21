@@ -115,7 +115,70 @@ public:
 
     void drawBoard()
     {
-        
+        cout << "\n";
+        for (int i = 0; i < 3; i++)
+        {
+            cout << "-------\n";
+            cout << "|" << board[i][0] << "|" << board[i][1] << "|" << board[i][2] << "|\n";
+        }
+        cout << "-------\n"
+             << "\n";
+    }
+
+    void makeMove(char c, int i, int j)
+    {
+        board[i][j] = c;
+        addCounter();
+    }
+
+    void isValidMove(char c)
+    {
+        int i, j;
+        cout << "Pleas enter the number of row and column place:\n";
+        cin >> i >> j;
+
+        if (i > 0 && i < 4 && j > 0 && j < 4)
+        {
+            i--;
+            j--;
+            if (board[i][j] == pL1->getPLCharacter() || board[i][j] == pL2->getPLCharacter())
+            {
+                cout << "place is full";
+                drawBoard();
+                isValidMove(c);
+            }
+            else
+            {
+                makeMove(c, i, j);
+            }
+            return;
+        }
+        cout << "Input invalid";
+        isValidMove(c);
+    }
+
+    void isFull()
+    {
+        if (Counter >= 9)
+        {
+            cout << "All pLaces is full\n";
+        }
+    }
+
+    bool isBoardFull()
+    {
+        return Counter >= 9;
+    }
+    
+    char getPL1Char() const 
+    {
+        return pL1->getPLCharacter();
+    }
+    
+    char getPL2Char() const 
+    {
+        return pL2->getPLCharacter();
+    }
 };
 
 class Dooz
