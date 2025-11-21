@@ -36,6 +36,66 @@ private:
     Player* pL2;
 
 public:
+    Board(Player* player1, Player* player2)
+    {
+        pL1 = player1;
+        pL2 = player2;
+        Counter = 0;
+        for (int i = 0; i < 3; ++i)
+            for (int j = 0; j < 3; ++j)
+                board[i][j] = ' ';
+    }
+
+    void addCounter()
+    {
+        Counter++;
+    }
+
+    bool checkWin()
+    {
+        for (int i = 0; i < 3; ++i)
+            if (board[i][0] != ' ' && board[i][0] == board[i][1] && board[i][1] == board[i][2])
+            {
+                if (board[i][0] == pL1->getPLCharacter())
+                {
+                    cout << "Player (" << pL1->getPLname() << ") winer\n";
+                    return true;
+                }
+                else if (board[i][0] == pL2->getPLCharacter())
+                {
+                    cout << "Player (" << pL2->getPLname() << ") winer\n";
+                    return true;
+                }
+            }
+
+        for (int j = 0; j < 3; ++j)
+            if (board[0][j] != ' ' && board[0][j] == board[1][j] && board[1][j] == board[2][j])
+            {
+                if (board[0][j] == pL1->getPLCharacter())
+                {
+                    cout << "Player (" << pL1->getPLname() << ") winer\n";
+                    return true;
+                }
+                else if (board[0][j] == pL2->getPLCharacter())
+                {
+                    cout << "Player (" << pL2->getPLname() << ") winer\n";
+                    return true;
+                }
+            }
+
+        if (board[0][0] != ' ' && board[0][0] == board[1][1] && board[1][1] == board[2][2])
+        {
+            if (board[0][0] == pL1->getPLCharacter())
+            {
+                cout << "Player (" << pL1->getPLname() << ") winer\n";
+                return true;
+            }
+            else if (board[0][0] == pL2->getPLCharacter())
+            {
+                cout << "Player (" << pL2->getPLname() << ") winer\n";
+                return true;
+            }
+        }
 
         if (board[0][2] != ' ' && board[0][2] == board[1][1] && board[1][1] == board[2][0])
         {
@@ -55,49 +115,7 @@ public:
 
     void drawBoard()
     {
-        cout << "\n";
-        for (int i = 0; i < 3; i++)
-        {
-            cout << "-------\n";
-            cout << "|" << board[i][0] << "|" << board[i][1] << "|" << board[i][2] << "|\n";
-        }
-        cout << "-------\n"
-             << "\n";
-    }
-
-    void makeMove(char c, int i, int j)
-    {
-        board[i][j] = c;
-        addCounter();
-    }
-
-    void isValidMove(char c)
-    {
-       
-    }
-
-    void isFull()
-    {
-        if (Counter >= 9)
-        {
-            cout << "All pLaces is full\n";
-        }
-    }
-
-    bool isBoardFull()
-    {
-        return Counter >= 9;
-    }
-    
-    char getPL1Char() const 
-    {
-        return pL1->getPLCharacter();
-    }
-    
-    char getPL2Char() const 
-    {
-        return pL2->getPLCharacter();
-    }
+        
 };
 
 class Dooz
@@ -107,7 +125,28 @@ private:
     int appointment = 1;
 
 public:
-   
+    Dooz(Board* board)
+    {
+        b = board;
+    }
+
+    void manageappointment()
+    {
+        if (appointment == 1)
+        {
+            b->isValidMove(b->getPL1Char());
+        }
+        else if (appointment == 2)
+        {
+            b->isValidMove(b->getPL2Char());
+        }
+        appointment = (appointment == 1) ? 2 : 1;
+    }
+
+    void play()
+    {
+        cout << "The game is equal\n";
+    }
 };
 
 int main()
